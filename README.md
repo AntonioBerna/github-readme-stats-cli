@@ -31,7 +31,7 @@ cargo run
 In this way you will receive the following message which will help you understand how you should use the program, in particular:
 
 ```bash
-Usage: target/debug/github-readme-stats-cli <username> <langs_count> <hide>
+Usage: target/debug/github-readme-stats-cli <username> <optional=[langs_count], [hide]>
 ```
 
 so we can use the program for example on [my profile](https://github.com/AntonioBerna) to see which are the 3 programming languages ​​that I use the most, perhaps excluding for example `HTML`, `CSS`, `JavaScript`, `C#` and `Processing` as follows:
