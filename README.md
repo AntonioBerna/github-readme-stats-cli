@@ -39,15 +39,17 @@ so we can use the program for example on [my profile](https://github.com/Antonio
 ```bash
 cargo run AntonioBerna 3 "html,css,javascript,c%23,processing"
 ```
-> **NOTE:** The special character `#` is encoded in ASCII hexadecimal code (click [here](https://ascii.cl/) for more detailed information).
+
+> [!NOTE]
+> The special character `#` is encoded in ASCII hexadecimal code (click [here](https://ascii.cl/) for more detailed information).
 
 So the final output is the following (at least until you start writing everything in Rust 🧑🏻‍💻):
 
 ```bash
 AntonioBerna Most Used Languages
- 1 - Python    [ 55.37% ]
- 2 - C         [ 23.78% ]
- 3 - C++       [ 20.85% ]
+ 1 - Python    [ 51.3%  ]
+ 2 - C         [ 25.73% ]
+ 3 - C++       [ 22.96% ]
 ```
 
 finally if you want to delete the executable in a simple way you can use the following command:
