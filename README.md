@@ -41,7 +41,7 @@ cargo run AntonioBerna 3 "html,css,javascript,c%23,processing"
 ```
 
 > [!NOTE]
-> The special character `#` is encoded in ASCII hexadecimal code (click [here](https://ascii.cl/) for more detailed information).
+> The special character `#` is encoded in ASCII hexadecimal code (click [here](https://upload.wikimedia.org/wikipedia/commons/1/1b/ASCII-Table-wide.svg) for more detailed information).
 
 So the final output is the following (at least until you start writing everything in Rust 🧑🏻‍💻):
 
