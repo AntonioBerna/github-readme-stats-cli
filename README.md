@@ -59,3 +59,29 @@ finally if you want to delete the executable in a simple way you can use the fol
 ```
 cargo clean
 ```
+
+## How to benefit from optimizations
+
+To benefit from the optimizations, introduced with the latest updates, you need to generate the executable file with the following command:
+
+```
+cargo build --release
+```
+
+once this procedure is finished you can use the program using the following command:
+
+```
+./target/release/github-readme-stats-cli
+```
+
+so as to obtain:
+
+```
+Usage: ./target/release/github-readme-stats-cli <username> <optional=[langs_count], [hide]>
+```
+
+from now on everything is similar to before with the difference that the size of the executable has been drastically reduced. Finally if you want to delete the executable in a simple way you can use the following command:
+
+```
+cargo clean
+```
