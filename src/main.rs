@@ -1,5 +1,4 @@
 use std::env;
-use std::io::{self, Write};
 use regex::Regex;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -17,18 +16,47 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let body: String = ureq::get(&url).call()?.into_string()?;
     
     let re: Regex = Regex::new(r#"<text.*?>(.*?)</text>"#)?;
-    let mut index: i32 = 1;
+    let values: Vec<String> = re
+        .captures_iter(&body)
+        .map(|cap| cap[1].to_string())
+        .collect();
+
+    let rows: Vec<(String, String)> = values
+        .chunks(2)
+        .filter_map(|chunk| {
+            if chunk.len() == 2 {
+                Some((chunk[0].clone(), chunk[1].clone()))
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    let rank_width: usize = rows.len().to_string().len().max(2);
+    let name_width: usize = rows
+        .iter()
+        .map(|(name, _)| name.chars().count())
+        .max()
+        .unwrap_or(0)
+        .max(11);
+    let pct_width: usize = rows
+        .iter()
+        .map(|(_, pct)| pct.chars().count())
+        .max()
+        .unwrap_or(0)
+        .max(7);
 
     println!("{} Most Used Languages", username);
-    for cap in re.captures_iter(&body) {
-        let formatted_name: &str = &cap[1];
-        if index % 2 != 0 {
-            print!("{:2} - {:11}", (index + 1) / 2, formatted_name);
-        } else {
-            println!("[ {:7}]", formatted_name);
-        }
-        io::stdout().flush()?;
-        index += 1;
+    for (index, (name, pct)) in rows.iter().enumerate() {
+        println!(
+            "{:>rank_width$} - {:<name_width$} [ {:>pct_width$} ]",
+            index + 1,
+            name,
+            pct,
+            rank_width = rank_width,
+            name_width = name_width,
+            pct_width = pct_width
+        );
     }
 
     Ok(())
