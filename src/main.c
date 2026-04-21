@@ -15,17 +15,17 @@
 typedef struct {
     char *data;
     size_t len;
-} MemoryBuffer;
+} mem_buf_t;
 
 typedef struct {
     char **items;
     size_t len;
     size_t cap;
-} StringVec;
+} str_vec_t;
 
 static size_t write_callback(char *contents, size_t size, size_t nmemb, void *user_data) {
     size_t chunk_size = size * nmemb;
-    MemoryBuffer *buffer = (MemoryBuffer *)user_data;
+    mem_buf_t *buffer = (mem_buf_t *)user_data;
 
     char *new_data = realloc(buffer->data, buffer->len + chunk_size + 1);
     if (new_data == NULL) {
@@ -40,7 +40,7 @@ static size_t write_callback(char *contents, size_t size, size_t nmemb, void *us
     return chunk_size;
 }
 
-static bool vec_push(StringVec *vec, char *value) {
+static bool vec_push(str_vec_t *vec, char *value) {
     if (vec->len == vec->cap) {
         size_t new_cap = (vec->cap == 0) ? 8 : vec->cap * 2;
         char **new_items = realloc(vec->items, new_cap * sizeof(*new_items));
@@ -56,7 +56,7 @@ static bool vec_push(StringVec *vec, char *value) {
     return true;
 }
 
-static void vec_free(StringVec *vec) {
+static void vec_free(str_vec_t *vec) {
     for (size_t i = 0; i < vec->len; ++i) {
         free(vec->items[i]);
     }
@@ -90,7 +90,7 @@ static char *trimmed_copy(const char *begin, const char *end) {
     return out;
 }
 
-static bool extract_text_values(const char *body, StringVec *values) {
+static bool extract_text_values(const char *body, str_vec_t *values) {
     const char *cursor = body;
 
     while ((cursor = strstr(cursor, "<text")) != NULL) {
@@ -178,7 +178,7 @@ static bool fetch_url(const char *url, char **out_body) {
         return false;
     }
 
-    MemoryBuffer buffer = {
+    mem_buf_t buffer = {
         .data = calloc(1, 1),
         .len = 0,
     };
@@ -238,7 +238,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    StringVec values = {0};
+    str_vec_t values = {0};
     if (!extract_text_values(body, &values)) {
         fprintf(stderr, "Unable to parse SVG response due to memory allocation failure.\n");
         free(body);
